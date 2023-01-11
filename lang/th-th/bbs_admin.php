@@ -86,7 +86,12 @@ return array(
 	'port'=>'พอร์ต',
 	'account'=>'บัญชี',
 	'smtp_host'=>'โฮสต์ SMTP',
-	
+	'url_rewrite_on'=>'Allow URL Rewrite',
+	'url_rewrite_on_tip'=>'URL Rewrite setting course',
+	'cdn_on'=>'Allow CDN',
+	'pagesize'=>'Topic list Pagesize',
+	'postlist_pagesize'=>'Reply list Pagesize',
+		
 	// forum
 	'forum_list'=>'รายชื่อฟอรัม',
 	'forum_id'=>'ไอดีฟอรัม',

@@ -30,16 +30,16 @@
 	
 	<?php $browser = get__browser();?>
 	<?php if($browser['name'] == 'ie') { ?>
-	<script src="<?php echo $conf['view_url'];?>js/es6-shim.js<?php echo $static_version;?>"></script>
+	<script src="<?php echo $conf['view_url'];?>js/es6-shim.js"></script>
 	<?php } ?>
-	<script src="lang/<?php echo $conf['lang'];?>/bbs.js<?php echo $static_version;?>"></script>
-	<script src="<?php echo $conf['view_url'];?>js/jquery-3.1.0.js<?php echo $static_version;?>"></script>
-	<script src="<?php echo $conf['view_url'];?>js/popper.js<?php echo $static_version;?>"></script>
-	<script src="<?php echo $conf['view_url'];?>js/bootstrap.js<?php echo $static_version;?>"></script>
-	<script src="<?php echo $conf['view_url'];?>js/xiuno.js<?php echo $static_version;?>"></script>
-	<script src="<?php echo $conf['view_url'];?>js/bootstrap-plugin.js<?php echo $static_version;?>"></script>
-	<script src="<?php echo $conf['view_url'];?>js/async.js<?php echo $static_version;?>"></script>
-	<script src="<?php echo $conf['view_url'];?>js/form.js<?php echo $static_version;?>"></script>
+	<script src="lang/<?php echo $conf['lang'];?>/bbs.js"></script>
+	<script src="<?php echo $conf['view_url'];?>js/jquery-3.5.1.min.js"></script>
+	<script src="<?php echo $conf['view_url'];?>js/popper.min.js"></script>
+	<script src="<?php echo $conf['view_url'];?>js/bootstrap.min.js"></script>
+	<script src="<?php echo $conf['view_url'];?>js/xiuno.min.js"></script>
+	<script src="<?php echo $conf['view_url'];?>js/bootstrap-plugin.min.js"></script>
+	<script src="<?php echo $conf['view_url'];?>js/async.min.js"></script>
+	<script src="<?php echo $conf['view_url'];?>js/form.js"></script>
 	<script>
 	var debug = DEBUG = <?php echo DEBUG; ?>;
 	var url_rewrite_on = <?php echo $conf['url_rewrite_on'];?>;

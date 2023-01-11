@@ -8,7 +8,6 @@ CREATE TABLE `bbs_user` (
   email char(40) NOT NULL DEFAULT '' COMMENT '邮箱',
   username char(32) NOT NULL DEFAULT '' COMMENT '用户名',	# 不可以重复
   realname char(16) NOT NULL DEFAULT '' COMMENT '用户名',	# 真实姓名，天朝预留
-  idnumber char(19) NOT NULL DEFAULT '' COMMENT '用户名',	# 真实身份证号码，天朝预留
   `password` char(32) NOT NULL DEFAULT '' COMMENT '密码',
   `password_sms` char(16) NOT NULL DEFAULT '' COMMENT '密码',	# 预留，手机发送的 sms 验证码
   salt char(16) NOT NULL DEFAULT '' COMMENT '密码混杂',
@@ -29,7 +28,7 @@ CREATE TABLE `bbs_user` (
   UNIQUE KEY username (username),
   UNIQUE KEY email (email),						# 升级的时候可能为空
   KEY gid (gid)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4;
 INSERT INTO `bbs_user` SET uid=1, gid=1, email='admin@admin.com', username='admin',`password`='d98bb50e808918dd45a8d92feafc4fa3',salt='123456';
 
 # 用户组
@@ -52,7 +51,7 @@ CREATE TABLE `bbs_group` (
   allowdeleteuser int(11) NOT NULL default '0',		# 允许删除用户
   allowviewip int(11) unsigned NOT NULL default '0',	# 允许查看用户敏感信息
   PRIMARY KEY (gid)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 INSERT INTO `bbs_group` SET gid='0', name="游客组", creditsfrom='0', creditsto='0', allowread='1', allowthread='0', allowpost='1', allowattach='0', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
 
 INSERT INTO `bbs_group` SET gid='1', name="管理员组", creditsfrom='0', creditsto='0', allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='1', allowmove='1', allowbanuser='1', allowdeleteuser='1', allowviewip='1';
@@ -63,11 +62,7 @@ INSERT INTO `bbs_group` SET gid='5', name="实习版主组", creditsfrom='0', cr
 INSERT INTO `bbs_group` SET gid='6', name="待验证用户组", creditsfrom='0', creditsto='0', allowread='1', allowthread='0', allowpost='1', allowattach='0', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
 INSERT INTO `bbs_group` SET gid='7', name="禁止用户组", creditsfrom='0', creditsto='0', allowread='0', allowthread='0', allowpost='0', allowattach='0', allowdown='0', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
 
-INSERT INTO `bbs_group` SET gid='101', name="一级用户组", creditsfrom='0', creditsto='50', allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
-INSERT INTO `bbs_group` SET gid='102', name="二级用户组", creditsfrom='50', creditsto='200', allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
-INSERT INTO `bbs_group` SET gid='103', name="三级用户组", creditsfrom='200', creditsto='1000', allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
-INSERT INTO `bbs_group` SET gid='104', name="四级用户组", creditsfrom='1000', creditsto='10000', allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
-INSERT INTO `bbs_group` SET gid='105', name="五级用户组", creditsfrom='10000', creditsto='10000000', allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
+INSERT INTO `bbs_group` SET gid='101', name="会员", creditsfrom='0', creditsto='10000000', allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
 
 # 板块表，一级, runtime 中存放 forumlist 格式化以后的数据。
 DROP TABLE IF EXISTS bbs_forum;
@@ -89,7 +84,7 @@ CREATE TABLE bbs_forum (
   seo_title char(64) NOT NULL default '',		# SEO 标题，如果设置会代替版块名称
   seo_keywords char(64) NOT NULL default '',		# SEO keyword
   PRIMARY KEY (fid)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 INSERT INTO bbs_forum SET fid='1', name='默认版块', brief='默认版块介绍';
 #  cache_date int(11) NOT NULL default '0',		# 最后 threadlist 缓存的时间，6种排序前10页结果缓存。如果是前10页，先读缓存，并依据此字段过期。更新条件：发贴
   
@@ -104,7 +99,7 @@ CREATE TABLE bbs_forum_access (				# 字段中文名
   allowattach tinyint(1) unsigned NOT NULL default '0',	# 允许上传附件
   allowdown tinyint(1) unsigned NOT NULL default '0',	# 允许下载附件
   PRIMARY KEY (fid, gid)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 # 论坛主题
 DROP TABLE IF EXISTS bbs_thread;
@@ -131,7 +126,7 @@ CREATE TABLE bbs_thread (
   KEY (lastpid),					# 最后回复排序
   KEY (fid, tid),					# 发帖时间排序，正序。数据量大时可以考虑建立小表，对小表进行分区优化，只有数据量达到千万级以上时才需要。
   KEY (fid, lastpid)					# 顶贴时间排序，倒序
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 # 置顶主题
 DROP TABLE IF EXISTS bbs_thread_top;
@@ -142,7 +137,7 @@ CREATE TABLE bbs_thread_top (
   PRIMARY KEY (tid),					#
   KEY (top, tid),					# 最新贴：top=0 order by tid desc / 全局置顶： top=3
   KEY (fid, top)					# 版块置顶的贴 fid=1 and top=1
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 # 论坛帖子数据
 DROP TABLE IF EXISTS bbs_post;
@@ -163,7 +158,7 @@ CREATE TABLE bbs_post (
   PRIMARY KEY (pid),
   KEY (tid, pid),
   KEY (uid)						# 我的回帖，清理数据需要
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 # 编辑历史
 
 #论坛附件表  只能按照从上往下的方式查找和删除！ 此表如果大，可以考虑通过 aid 分区。
@@ -189,7 +184,7 @@ CREATE TABLE bbs_attach (
   PRIMARY KEY (aid),					# aid
   KEY pid (pid),					# 每个帖子下多个附件
   KEY uid (uid)						# 我的附件，清理数据需要。
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 # 我的主题，每个主题不管回复多少次，只记录一次。大表，需要分区。
 DROP TABLE IF EXISTS bbs_mythread;
@@ -197,7 +192,7 @@ CREATE TABLE bbs_mythread (
   uid int(11) unsigned NOT NULL default '0',		# uid
   tid int(11) unsigned NOT NULL default '0',		# 用来清理，删除板块的时候需要
   PRIMARY KEY (uid, tid)				# 每一个帖子只能插入一次 unique
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 # 我的回帖。大表，需要分区。
 DROP TABLE IF EXISTS bbs_mypost;
@@ -207,7 +202,7 @@ CREATE TABLE bbs_mypost (
   pid int(11) unsigned NOT NULL default '0',		#
   KEY (tid),						#
   PRIMARY KEY (uid, pid)				#
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 # session 表
 # 缓存到 runtime 表。 online_0 全局 online_fid 版块。提高遍历效率。
@@ -226,7 +221,7 @@ CREATE TABLE bbs_session (
   KEY ip (ip),
   KEY fid (fid),
   KEY uid_last_date (uid, last_date)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 
 DROP TABLE IF EXISTS bbs_session_data;
@@ -235,7 +230,7 @@ CREATE TABLE bbs_session_data (
   last_date int(11) unsigned NOT NULL default '0',	# 上次活动时间
   data text NOT NULL,					# 存超大数据
   PRIMARY KEY (sid)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 # 版主操作日志
 DROP TABLE IF EXISTS bbs_modlog;
@@ -252,7 +247,7 @@ CREATE TABLE bbs_modlog (
   PRIMARY KEY (logid),
   KEY (uid, logid),
   KEY (tid)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 # 持久的 key value 数据存储, ttserver, mysql
 DROP TABLE IF EXISTS bbs_kv;
@@ -261,7 +256,7 @@ CREATE TABLE bbs_kv (
   v mediumtext NOT NULL,
   expiry int(11) unsigned NOT NULL default '0',		# 过期时间
   PRIMARY KEY(k)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 # 缓存表，用来保存临时数据。
 DROP TABLE IF EXISTS bbs_cache;
@@ -270,7 +265,7 @@ CREATE TABLE bbs_cache (
   v mediumtext NOT NULL,
   expiry int(11) unsigned NOT NULL default '0',		# 过期时间
   PRIMARY KEY(k)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 # 临时队列，用来保存临时数据。
 DROP TABLE IF EXISTS bbs_queue;
@@ -280,7 +275,7 @@ CREATE TABLE bbs_queue (
   expiry int(11) unsigned NOT NULL default '0',		# 过期时间，默认 0，不过期
   UNIQUE KEY(queueid, v),
   KEY(expiry)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 
 # 系统表, id
@@ -298,5 +293,5 @@ CREATE TABLE `bbs_table_day` (
   `maxid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最大ID', 	#
   `count` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '总数', 		#
   PRIMARY KEY (`year`, `month`, `day`, `table`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 

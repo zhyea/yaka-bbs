@@ -24,7 +24,11 @@ if($action == 'base') {
 		$input['user_create_email_on'] = form_radio_yes_no('user_create_email_on', $conf['user_create_email_on']);
 		$input['user_resetpw_on'] = form_radio_yes_no('user_resetpw_on', $conf['user_resetpw_on']);
 		$input['lang'] = form_select('lang', array('zh-cn'=>lang('lang_zh_cn'), 'zh-tw'=>lang('lang_zh_tw'), 'en-us'=>lang('lang_en_us'), 'ru-ru'=>lang('lang_ru_ru'), 'th-th'=>lang('lang_th_th')), $conf['lang']);
-		
+		$input['url_rewrite_on'] = form_radio_yes_no('url_rewrite_on', $conf['url_rewrite_on']); 
+		$input['cdn_on'] = form_radio_yes_no('cdn_on', $conf['cdn_on']); 
+		$input['pagesize'] = form_text('pagesize', $conf['pagesize'], 100); 
+		$input['postlist_pagesize'] = form_text('postlist_pagesize', $conf['postlist_pagesize'], 100); 
+
 		$header['title'] = lang('admin_site_setting');
 		$header['mobile_title'] =lang('admin_site_setting');
 		
@@ -40,7 +44,10 @@ if($action == 'base') {
 		$user_create_on = param('user_create_on', 0);
 		$user_create_email_on = param('user_create_email_on', 0);
 		$user_resetpw_on = param('user_resetpw_on', 0);
-		
+		$url_rewrite_on = param('url_rewrite_on', 0); 
+		$cdn_on = param('cdn_on', 0); 
+		$pagesize = param('pagesize', 0); 
+		$postlist_pagesize = param('postlist_pagesize', 0);  		
 		$_lang = param('lang');
 		
 		// hook admin_setting_base_post_start.php
@@ -53,7 +60,10 @@ if($action == 'base') {
 		$replace['user_create_email_on'] = $user_create_email_on;
 		$replace['user_resetpw_on'] = $user_resetpw_on;
 		$replace['lang'] = $_lang;
-		
+		$replace['url_rewrite_on'] = $url_rewrite_on;
+		$replace['cdn_on'] = $cdn_on;
+		$replace['pagesize'] = $pagesize;
+		$replace['postlist_pagesize'] = $postlist_pagesize; 		
 		file_replace_var(APP_PATH.'conf/conf.php', $replace);
 	
 		// hook admin_setting_base_post_end.php

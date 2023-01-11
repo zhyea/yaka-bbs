@@ -86,7 +86,12 @@ return array(
 	'port'=>'端口',
 	'account'=>'賬號',
 	'smtp_host'=>'SMTP 主機',
-	
+	'url_rewrite_on'=>'開啟偽靜態',
+	'url_rewrite_on_tip'=>'偽靜態設置教程',
+	'cdn_on'=>'開啟CDN',
+	'pagesize'=>'主題列表每頁條數',
+	'postlist_pagesize'=>'回復列表每頁條數',
+
 	// 版塊
 	'forum_list'=>'版塊列表',
 	'forum_id'=>'版塊 ID',

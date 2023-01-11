@@ -85,7 +85,12 @@ return array(
 	'account'=>'Логин',
 	'smtp_host'=>'Сервер SMTP',
 	'lang_ru-ru'=>'Русский',
-	
+	'url_rewrite_on'=>'Allow URL Rewrite',
+	'url_rewrite_on_tip'=>'URL Rewrite setting course',
+	'cdn_on'=>'Allow CDN',
+	'pagesize'=>'Topic list Pagesize',
+	'postlist_pagesize'=>'Reply list Pagesize',
+		
 	// forum
 	'forum_list'=>'Список форумов',
 	'forum_id'=>'ID форума',

@@ -83,7 +83,12 @@ return array(
 	'port'=>'端口',
 	'account'=>'账号',
 	'smtp_host'=>'SMTP 主机',
-	
+	'url_rewrite_on'=>'开启伪静态',
+	'url_rewrite_on_tip'=>'伪静态设置教程',
+	'cdn_on'=>'开启CDN',
+	'pagesize'=>'主题列表每页条数',
+	'postlist_pagesize'=>'回复列表每页条数',
+
 	// 版块
 	'forum_list'=>'版块列表',
 	'forum_id'=>'版块 ID',

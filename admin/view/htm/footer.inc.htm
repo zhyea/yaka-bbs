@@ -17,7 +17,7 @@
 
 	<!--{hook admin_footer_footer_before.htm}-->
 	
-	<footer class="text-muted small bg-dark py-4" id="footer">
+	<footer class="text-muted small bg-light py-4" id="footer">
 		<div class="container">
 			<div class="row">
 				<div class="col">
@@ -36,26 +36,22 @@
 	
 	<!--{hook admin_footer_footer_after.htm}-->
 	
-	<!--[if lt IE 9]>
-	<script>window.location = '<?php echo url('browser');?>';</script>
-	<![endif]-->
 	
 	<!--{hook admin_footer_js_before.htm}-->
 	
-	<script src="../lang/<?php echo $conf['lang'];?>/bbs.js<?php echo $static_version;?>"></script>
-	<script src="../view/js/jquery-3.1.0.js<?php echo $static_version;?>"></script>
-	<script src="../view/js/popper.js<?php echo $static_version;?>"></script>
-	<script src="../view/js/bootstrap.js<?php echo $static_version;?>"></script>
-	<script src="../view/js/xiuno.js<?php echo $static_version;?>"></script>
-	<script src="../view/js/bootstrap-plugin.js<?php echo $static_version;?>"></script>
-	<script src="../view/js/async.js<?php echo $static_version;?>"></script>
-	<script src="../view/js/form.js<?php echo $static_version;?>"></script>
+	<script src="../lang/<?php echo $conf['lang'];?>/bbs.js"></script>
+	<script src="../view/js/jquery-3.5.1.min.js"></script>
+	<script src="../view/js/popper.min.js"></script>
+	<script src="../view/js/bootstrap.min.js"></script>
+	<script src="../view/js/xiuno.min.js"></script>
+	<script src="../view/js/bootstrap-plugin.min.js"></script>
+	<script src="../view/js/async.min.js"></script>
+	<script src="../view/js/form.js"></script>
 	<script>
 	var debug = DEBUG = <?php echo DEBUG; ?>;
 	var url_rewrite_on = <?php echo $conf['url_rewrite_on'];?>;
 	var fid = <?php echo $fid;?>;
 	</script>
-	<script src="../view/js/bbs.js<?php echo $static_version;?>"></script>
 	
 	<!--{hook admin_footer_js_after.htm}-->
 	

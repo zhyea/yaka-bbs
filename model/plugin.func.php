@@ -71,8 +71,8 @@ function plugin_init() {
 		}
 	}*/
 	
-	$official_plugins = plugin_official_list_cache();
-	empty($official_plugins) AND $official_plugins = array();
+//	$official_plugins = plugin_official_list_cache();
+//	empty($official_plugins) AND $official_plugins = array();
 	
 	$plugin_paths = glob(APP_PATH.'plugin/*', GLOB_ONLYDIR);
 	if(is_array($plugin_paths)) {
