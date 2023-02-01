@@ -1,18 +1,13 @@
 <?php
-/*
- * Copyright (C) xiuno.com
- */
 
-// 0: Production mode; 1: Developer mode; 2: Plugin developement mode;
+// 0: Production mode; 1: Developer mode; 2: Plugin development mode;
 // 0: 线上模式; 1: 调试模式; 2: 插件开发模式;
 !defined('DEBUG') AND define('DEBUG', 0);
 define('APP_PATH', dirname(__FILE__).'/'); // __DIR__
 !defined('ADMIN_PATH') AND define('ADMIN_PATH', APP_PATH.'admin/');
-!defined('XIUNOPHP_PATH') AND define('XIUNOPHP_PATH', APP_PATH.'xiunophp/');
+!defined('YAKA_PATH') AND define('YAKA_PATH', APP_PATH.'yaka/');
 
-// !ini_get('zlib.output_compression') AND ob_start('ob_gzhandler');
 
-//ob_start('ob_gzhandler');
 $conf = (@include APP_PATH.'conf/conf.php') OR exit('<script>window.location="install/"</script>');
 
 // 兼容 4.0.3 的配置文件	
@@ -30,18 +25,15 @@ substr($conf['upload_path'], 0, 2) == './' AND $conf['upload_path'] = APP_PATH.$
 $_SERVER['conf'] = $conf;
 
 if(DEBUG > 1) {
-	include XIUNOPHP_PATH.'xiunophp.php';
+	include YAKA_PATH.'yaka.php';
 } else {
-	include XIUNOPHP_PATH.'xiunophp.min.php';
+	include YAKA_PATH.'yaka.min.php';
 }
 
 // 测试数据库连接 / try to connect database
-//db_connect() OR exit($errstr);
+//db_connect() OR exit($err_str);
 
 include APP_PATH.'model/plugin.func.php';
 include _include(APP_PATH.'model.inc.php');
 include _include(APP_PATH.'index.inc.php');
 
-//file_put_contents((ini_get('xhprof.output_dir') ? : '/tmp') . '/' . uniqid() . '.xhprof.xhprof', serialize(xhprof_disable()));
-
-?>

@@ -2,7 +2,7 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
-include _include(XIUNOPHP_PATH.'xn_send_mail.func.php');
+include _include(YAKA_PATH.'xn_send_mail.func.php');
 
 $action = param(1);
 

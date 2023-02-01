@@ -300,7 +300,7 @@ return array(
 	'tag_cate_name'=>'分類名稱',
 	'tag_name'=>'標簽名稱',
 	
-	'toggler_menu'=>'展開菜單',
+	'toggle_menu'=>'展開菜單',
 	
 	// hook lang_zh_tw_bbs.php
 	

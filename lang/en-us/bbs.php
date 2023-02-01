@@ -10,7 +10,7 @@ return array(
 	'disable'=>'Disable',
 	'download'=>'Download',
 	'install'=>'Install',
-	'unstall'=>'Unstall',
+	'uninstall'=>'Uninstall',
 	'update'=>'Update',
 	'checkall'=>'Check All',
 	'back'=>'Back',
@@ -25,7 +25,6 @@ return array(
 	'submit'=>'Submit',
 	'submiting'=>'Submiting',
 	'create'=>'Create',
-	'update'=>'Update',
 	'edit'=>'Edit',
 	'modify'=>'Modify',
 	'delete'=>'Delete',
@@ -124,7 +123,6 @@ return array(
 	'create_user'=>'Create User',
 	'user_group'=>'User Group',
 	'create_ip'=>'Create IP',
-	'keyword'=>'Keyword',
 	'uid'=>'UID',
 	'search'=>'Search',
 	'operation'=>'Operation',
@@ -303,10 +301,8 @@ return array(
 	'tag_cate_name'=>'Tag Category Name',
 	'tag_name'=>'Tag Name',
 	
-	'toggler_menu'=>'Toggle Menu',
+	'toggle_menu'=>'Toggle Menu',
 	
 	// hook lang_en_us_bbs.php
 	
 );
-
-?>

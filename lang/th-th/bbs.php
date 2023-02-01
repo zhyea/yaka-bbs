@@ -303,10 +303,8 @@ return array(
 	'tag_cate_name'=>'ชื่อหมวดหมู่แท็ก',
 	'tag_name'=>'ชื่อแท็ก',
 	
-	'toggler_menu'=>'เมนูสลับ',
+	'toggle_menu'=>'เมนูสลับ',
 	
 	// hook lang_th_th_bbs.php
 	
 );
-
-?>

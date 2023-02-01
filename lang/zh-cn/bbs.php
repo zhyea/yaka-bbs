@@ -303,7 +303,7 @@ return array(
 	'tag_cate_name'=>'分类名称',
 	'tag_name'=>'标签名称',
 	
-	'toggler_menu'=>'展开菜单',
+	'toggle_menu'=>'展开菜单',
 	
 	// hook lang_zh_cn_bbs.php
 	

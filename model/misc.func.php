@@ -151,7 +151,7 @@ function xn_lock_end($lockname = '') {
 
 // class xn_html_safe 由 axiuno@gmail.com 编写
 
-include_once XIUNOPHP_PATH.'xn_html_safe.func.php';
+include_once YAKA_PATH.'xn_html_safe.func.php';
 
 function xn_html_safe($doc, $arg = array()) {
 	

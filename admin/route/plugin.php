@@ -2,7 +2,7 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
-include XIUNOPHP_PATH.'xn_zip.func.php';
+include YAKA_PATH.'xn_zip.func.php';
 
 $action = param(1);
 

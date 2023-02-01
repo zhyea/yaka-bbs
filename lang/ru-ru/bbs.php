@@ -308,10 +308,9 @@ return array(
 	'tag_cate_name'=>'Название категории',
 	'tag_name'=>'Метка',
 	
-	'toggler_menu'=>'Toggle Menu',
+	'toggle_menu'=>'Toggle Menu',
 	
 	// hook lang_en_us_bbs.php
 	
 );
 
-?>

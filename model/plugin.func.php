@@ -1,39 +1,37 @@
 <?php
 
  // 本地插件
-//$plugin_srcfiles = array();
 $plugin_paths = array();
 $plugins = array(); // 跟官方插件合并
 
 // 官方插件列表
 $official_plugins = array();
 
-define('PLUGIN_OFFICIAL_URL', DEBUG == 4 ? 'http://plugin.x.com/' : 'http://plugin.xiuno.com/');
+const PLUGIN_OFFICIAL_URL = DEBUG == 4 ? 'https://plugin.x.com/' : 'https://plugin.xiuno.com/';
 
-// todo: 对路径进行处理 include _include(APP_PATH.'view/htm/header.inc.htm');
 $g_include_slot_kv = array();
-function _include($srcfile) {
+function _include($src_file): string
+{
 	global $conf;
 	// 合并插件，存入 tmp_path
 	$len = strlen(APP_PATH);
-	$tmpfile = $conf['tmp_path'].substr(str_replace('/', '_', $srcfile), $len);
-	if(!is_file($tmpfile) || DEBUG > 1) {
+	$tmp_file = $conf['tmp_path'].substr(str_replace('/', '_', $src_file), $len);
+	if(!is_file($tmp_file) || DEBUG > 1) {
 		// 开始编译
-		$s = plugin_compile_srcfile($srcfile);
+		$s = plugin_compile_srcfile($src_file);
 		
 		// 支持 <template> <slot>
-		$g_include_slot_kv = array();
 		for($i = 0; $i < 10; $i++) {
 			$s = preg_replace_callback('#<template\sinclude="(.*?)">(.*?)</template>#is', '_include_callback_1', $s);
 			if(strpos($s, '<template') === FALSE) break;
 		}
-		file_put_contents_try($tmpfile, $s);
+		file_put_contents_try($tmp_file, $s);
 		
-		$s = plugin_compile_srcfile($tmpfile);
-		file_put_contents_try($tmpfile, $s);
+		$s = plugin_compile_srcfile($tmp_file);
+		file_put_contents_try($tmp_file, $s);
 		
 	}
-	return $tmpfile;
+	return $tmp_file;
 }
 
 function _include_callback_1($m) {
@@ -53,26 +51,6 @@ function _include_callback_1($m) {
 // 在安装、卸载插件的时候，需要先初始化
 function plugin_init() {
 	global $plugin_srcfiles, $plugin_paths, $plugins, $official_plugins;
-	/*$plugin_srcfiles = array_merge(
-		glob(APP_PATH.'model/*.php'), 
-		glob(APP_PATH.'route/*.php'), 
-		glob(APP_PATH.'view/htm/*.*'), 
-		glob(ADMIN_PATH.'route/*.php'), 
-		glob(ADMIN_PATH.'view/htm/*.*'),
-		glob(APP_PATH.'lang/en-us/*.*'),
-		glob(APP_PATH.'lang/zh-cn/*.*'),
-		glob(APP_PATH.'lang/zh-tw/*.*'),
-		array(APP_PATH.'model.inc.php')
-	);
-	foreach($plugin_srcfiles as $k=>$file) {
-		$filename = file_name($file);
-		if(is_backfile($filename)) {
-			unset($plugin_srcfiles[$k]);
-		}
-	}*/
-	
-//	$official_plugins = plugin_official_list_cache();
-//	empty($official_plugins) AND $official_plugins = array();
 	
 	$plugin_paths = glob(APP_PATH.'plugin/*', GLOB_ONLYDIR);
 	if(is_array($plugin_paths)) {
@@ -520,11 +498,3 @@ function plugin_siteid() {
 	return $siteid;
 }
 
-/*function plugin_outid($dir) {
-	global $conf;
-	$auth_key = $conf['auth_key'];
-	$siteip = _SERVER('SERVER_ADDR')
-	$outid = md5($auth_key.$siteip.$dir);
-	return $outid;
-}*/
-?>
