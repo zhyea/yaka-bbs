@@ -56,7 +56,7 @@ if($action == 'local') {
 
 	// 给出插件的介绍+付款二维码
 	$dir = param_word(2);
-	$siteid = plugin_siteid();
+	$siteid = plugin_site_id();
 	
 	$plugin = plugin_read_by_dir($dir);
 	empty($plugin) AND message(-1, lang('plugin_not_exists'));
@@ -182,7 +182,7 @@ if($action == 'local') {
 		foreach($plugins as $_dir => $_plugin) {
 			if($dir == $_dir) continue;
 			if(strpos($_dir, '_theme_') !== FALSE) {
-				plugin_unstall($_dir);
+				plugin_uninstall($_dir);
 			}
 		}
 	} else {
@@ -192,7 +192,7 @@ if($action == 'local') {
 			if($dir == $_dir) continue;
 			$_suffix = substr($_dir, strpos($_dir, '_'));
 			if($suffix == $_suffix) {
-				plugin_unstall($_dir);
+				plugin_uninstall($_dir);
 			}
 		}
 	}
@@ -215,7 +215,7 @@ if($action == 'local') {
 	plugin_check_dependency($dir, 'unstall');
 	
 	// 卸载插件
-	plugin_unstall($dir);
+	plugin_uninstall($dir);
 	
 	$unstallfile = APP_PATH."plugin/$dir/unstall.php";
 	if(is_file($unstallfile)) {
@@ -388,7 +388,7 @@ function plugin_dependency_arr_to_links($arr) {
 function plugin_download_unzip($dir) {
 	global $conf;
 	$app_url = http_url_path();
-	$siteid =  plugin_siteid();
+	$siteid =  plugin_site_id();
 	$app_url = xn_urlencode($app_url);
 	$url = PLUGIN_OFFICIAL_URL."plugin-download-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 
@@ -436,7 +436,7 @@ function plugin_download_unzip($dir) {
 function plugin_is_bought($dir) {
 	// 发起请求
 	global $conf;
-	$siteid =  plugin_siteid();
+	$siteid =  plugin_site_id();
 	$app_url = http_url_path();
 	$app_url = xn_urlencode($app_url);
 	$url = PLUGIN_OFFICIAL_URL."plugin-is_bought-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
@@ -454,7 +454,7 @@ function plugin_order_buy_qrcode_url($siteid, $dir, $app_url = '') {
 	// 发起请求
 	global $conf;
 	
-	$siteid = plugin_siteid();
+	$siteid = plugin_site_id();
 	$app_url = http_url_path();
 	$app_url = xn_urlencode($app_url);
 	$url = PLUGIN_OFFICIAL_URL."plugin-buy_qrcode_url-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
