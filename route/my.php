@@ -75,7 +75,7 @@ if(empty($action)) {
 	// hook my_profile_thread_list_before.php
 	
 	$pagination = pagination(url('my-thread-{page}'), $totalnum, $page, $pagesize);
-	$threadlist = mythread_find_by_uid($uid, $page, $pagesize);
+	$threadlist = thread_find_by_uid($uid, $page, $pagesize);
 	
 	// hook my_thread_end.php
 	

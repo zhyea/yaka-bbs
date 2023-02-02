@@ -45,7 +45,7 @@ if(empty($action)) {
         $pagesize = 20;
         $totalnum = $_user['threads'];
         $pagination = pagination(url("user-thread-$_uid-{page}"), $totalnum, $page, $pagesize);
-        $threadlist = mythread_find_by_uid($_uid, $page, $pagesize);
+        $threadlist = thread_find_by_uid($_uid, $page, $pagesize);
         thread_list_access_filter($threadlist, $gid);
 
         // hook user_thread_end.php

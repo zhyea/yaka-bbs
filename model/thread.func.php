@@ -2,74 +2,65 @@
 
 // ------------> 关联的 CURD，无关联其他数据。
 
-// hook model_mythread_start.php
 
-function thread_create($uid, $tid) {
-	// hook model_mythread_create_start.php
-	if($uid == 0) return TRUE; // 匿名发帖
-	$thread = mythread_read($uid, $tid);
-	if(empty($thread)) {
-		$r = db_create('mythread', array('uid'=>$uid, 'tid'=>$tid));
-		return $r;
-	} else {
-		return TRUE;
-	}
+function thread_create($uid, $tid)
+{
+    if ($uid == 0) return TRUE; // 匿名发帖
+    $thread = thread_read($uid, $tid);
+    if (empty($thread)) {
+        return db_create('y-thread', array('uid' => $uid, 'tid' => $tid));
+    } else {
+        return TRUE;
+    }
 }
 
-function mythread_read($uid, $tid) {
-	// hook model_mythread_read_start.php
-	$mythread = db_find_one('mythread', array('uid'=>$uid, 'tid'=>$tid));
-	// hook model_mythread_read_end.php
-	return $mythread;
+
+function thread_read($uid, $tid)
+{
+    return db_find_one('y-thread', array('uid' => $uid, 'tid' => $tid));
 }
 
-function mythread_delete($uid, $tid) {
-	// hook model_mythread_delete_start.php
-	$r = db_delete('mythread', array('uid'=>$uid, 'tid'=>$tid));
-	// hook model_mythread_delete_end.php
-	return $r;
+
+function thread_delete($uid, $tid)
+{
+    return db_delete('y-thread', array('uid' => $uid, 'tid' => $tid));
 }
 
-function mythread_delete_by_uid($uid) {
-	// hook model_mythread_delete_by_uid_start.php
-	$r = db_delete('mythread', array('uid'=>$uid));
-	// hook model_mythread_delete_by_uid_end.php
-	return $r;
+
+function thread_delete_by_uid($uid)
+{
+    return db_delete('y-thread', array('uid' => $uid));
 }
 
-function mythread_delete_by_fid($fid) {
-	// hook model_mythread_delete_by_fid_start.php
-	$r = db_delete('mythread', array('fid'=>$fid));
-	// hook model_mythread_delete_by_fid_end.php
-	return $r;
+
+function thread_delete_by_fid($fid)
+{
+    return db_delete('y-thread', array('fid' => $fid));
 }
 
-function mythread_delete_by_tid($tid) {
-	// hook model_mythread_delete_by_tid_start.php
-	$r = db_delete('mythread', array('tid'=>$tid));
-	// hook model_mythread_delete_by_tid_end.php
-	return $r;
+
+function thread_delete_by_tid($tid)
+{
+    return db_delete('y-thread', array('tid' => $tid));
 }
 
-function mythread_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
-	// hook model_mythread_find_start.php
-	$mythreadlist = db_find('mythread', $cond, $orderby, $page, $pagesize);
-	// hook model_mythread_find_end.php
-	return $mythreadlist;
+
+function thread_find($cond = array(), $order_by = array(), $page = 1, $page_size = 20): array
+{
+    return db_find('y-thread', $cond, $order_by, $page, $page_size);
 }
 
-function mythread_find_by_uid($uid, $page = 1, $pagesize = 20) {
-	// hook model_mythread_find_by_uid_start.php
-	$mythreadlist = mythread_find(array('uid'=>$uid), array('tid'=>-1), $page, $pagesize);
-	if(empty($mythreadlist)) return array();
-	$threadlist = array();
-	foreach ($mythreadlist as &$mythread) {
-		$threadlist[$mythread['tid']] = thread_read($mythread['tid']);
-	}
-	// hook model_mythread_find_by_uid_end.php
-	return $threadlist;
+
+function thread_find_by_uid($uid, $page = 1, $page_size = 20): array
+{
+    $thread_list = thread_find(array('uid' => $uid), array('tid' => -1), $page, $page_size);
+    if (empty($thread_list)) {
+        return array();
+    }
+
+    $result = array();
+    foreach ($thread_list as &$thread) {
+        $result[$thread['tid']] = thread_read($uid, $thread['tid']);
+    }
+    return $result;
 }
-
-// hook model_mythread_end.php
-
-?>

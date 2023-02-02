@@ -109,7 +109,7 @@ function user_delete($uid) {
 	if(empty($user)) return NULL;
 	
 	// 清理主题帖
-	$threadlist = mythread_find_by_uid($uid, 1, 1000);
+	$threadlist = thread_find_by_uid($uid, 1, 1000);
 	foreach($threadlist as $thread) {
 		thread_delete($thread['tid']);
 	}

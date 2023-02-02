@@ -1,11 +1,9 @@
 <?php
 
-// hook model_cron_start.php
-
 // 计划任务
 function cron_run($force = 0) {
-	// hook model_cron_run_start.php
-	global $conf, $time, $forumlist, $runtime;
+    
+	global $conf, $time, $forum_list, $runtime;
 	$cron_1_last_date = runtime_get('cron_1_last_date');
 	$cron_2_last_date = runtime_get('cron_2_last_date');
 	
@@ -42,7 +40,7 @@ function cron_run($force = 0) {
 			runtime_set('todaythreads', 0);
 			runtime_set('todayusers', 0);
 			
-			foreach($forumlist as $fid=>$forum) {
+			foreach($forum_list as $fid=>$forum) {
 				forum__update($fid, array('todayposts'=>0, 'todaythreads'=>0));
 			}
 			forum_list_cache_delete();
@@ -67,11 +65,4 @@ function cron_run($force = 0) {
 		}
 		
 	}
-	// hook model_cron_run_end.php
 }
-
-
-
-// hook model_cron_end.php
-
-?>
