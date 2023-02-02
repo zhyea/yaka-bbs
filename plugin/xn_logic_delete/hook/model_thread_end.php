@@ -47,7 +47,7 @@ function thread_logic_recover($tid) {
 	$fid = $thread['fid'];
 	$uid = $thread['uid'];
 
-	mythread_create($uid, $tid);
+	thread_create($uid, $tid);
 	
 	// 清除相关缓存
 	forum_list_cache_delete();

@@ -1,94 +1,66 @@
 <?php
 
-// hook model_attach_start.php
 
 // ------------> 最原生的 CURD，无关联其他数据。
 
-function _attach_create($arr): bool
+function _attach_create($arr)
 {
-    // hook model_attach__create_start.php
-    $r = db_create('attach', $arr);
-    // hook model_attach__create_end.php
-    return $r;
+    return db_create('attach', $arr);
 }
 
 
-function _attach_update($aid, $arr): bool
+function _attach_update($aid, $arr)
 {
-    // hook model_attach__update_start.php
-    $r = db_update('attach', array('aid' => $aid), $arr);
-    // hook model_attach__update_end.php
-    return $r;
+    return db_update('attach', array('aid' => $aid), $arr);
 }
 
 
-function _attach_read($aid): bool
+function _attach_read($aid)
 {
-    // hook model_attach__read_start.php
-    $attach = db_find_one('attach', array('aid' => $aid));
-    // hook model_attach__read_end.php
-    return $attach;
+    return db_find_one('attach', array('aid' => $aid));
 }
 
 
-function _attach_delete($aid): bool
+function _attach_delete($aid)
 {
-    // hook model_attach__delete_start.php
-    $r = db_delete('attach', array('aid' => $aid));
-    // hook model_attach__delete_end.php
-    return $r;
+    return db_delete('attach', array('aid' => $aid));
 }
 
 
 function _attach_find($cond = array(), $order_by = array(), $page = 1, $page_size = 20): array
 {
-    // hook model_attach__find_start.php
-    $attach_list = db_find('attach', $cond, $order_by, $page, $page_size);
-    // hook model_attach__find_end.php
-    return $attach_list;
-}
-
-// ------------> 关联 CURD，主要是强相关的数据，比如缓存。弱相关的大量数据需要另外处理。
-
-function attach_create($arr): bool
-{
-    // hook model_attach_create_start.php
-    $r = _attach_create($arr);
-    // hook model_attach_create_end.php
-    return $r;
+    return db_find('attach', $cond, $order_by, $page, $page_size);
 }
 
 
-function attach_update($aid, $arr): bool
+function attach_create($arr)
 {
-    // hook model_attach_update_start.php
-    $r = _attach_update($aid, $arr);
-    // hook model_attach_update_end.php
-    return $r;
+    return _attach_create($arr);
 }
 
 
-function attach_read($aid): bool
+function attach_update($aid, $arr)
 {
-    // hook model_attach_read_start.php
+    return _attach_update($aid, $arr);
+}
+
+
+function attach_read($aid)
+{
     $attach = _attach_read($aid);
     attach_format($attach);
-    // hook model_attach_read_end.php
     return $attach;
 }
 
 
-function attach_delete($aid): bool
+function attach_delete($aid)
 {
-    // hook model_attach_delete_start.php
     global $conf;
     $attach = attach_read($aid);
     $path = $conf['upload_path'] . 'attach/' . $attach['filename'];
     file_exists($path) and unlink($path);
 
-    $r = _attach_delete($aid);
-    // hook model_attach_delete_end.php
-    return $r;
+    return _attach_delete($aid);
 }
 
 
@@ -96,13 +68,11 @@ function attach_delete_by_pid($pid): int
 {
     global $conf;
     list($attach_list, $image_list, $file_list) = attach_find_by_pid($pid);
-    // hook model_attach_delete_by_pid_start.php
     foreach ($attach_list as $attach) {
         $path = $conf['upload_path'] . 'attach/' . $attach['filename'];
         file_exists($path) and unlink($path);
         _attach_delete($attach['aid']);
     }
-    // hook model_attach_delete_by_pid_end.php
     return count($attach_list);
 }
 
@@ -110,27 +80,23 @@ function attach_delete_by_pid($pid): int
 function attach_delete_by_uid($uid)
 {
     global $conf;
-    // hook model_attach_delete_by_uid_start.php
     $attach_list = db_find('attach', array('uid' => $uid), array(), 1, 9000);
     foreach ($attach_list as $attach) {
         $path = $conf['upload_path'] . 'attach/' . $attach['filename'];
         file_exists($path) and unlink($path);
         _attach_delete($attach['aid']);
     }
-    // hook model_attach_delete_by_uid_end.php
 }
 
 
-function attach_find($cond = array(), $order_by = array(), $page = 1, $page_size = 20)
+function attach_find($cond = array(), $order_by = array(), $page = 1, $page_size = 20): array
 {
-    // hook model_attach_find_start.php
     $attach_list = _attach_find($cond, $order_by, $page, $page_size);
     if ($attach_list) {
         foreach ($attach_list as &$attach) {
             attach_format($attach);
         }
     }
-    // hook model_attach_find_end.php
     return $attach_list;
 }
 
@@ -139,86 +105,75 @@ function attach_find($cond = array(), $order_by = array(), $page = 1, $page_size
 function attach_find_by_pid($pid): array
 {
     $attach_list = $image_list = $file_list = array();
-    // hook model_attach_find_by_pid_start.php
     $attach_list = _attach_find(array('pid' => $pid), array(), 1, 1000);
     if ($attach_list) {
         foreach ($attach_list as $attach) {
             attach_format($attach);
-            $attach['isimage'] ? ($image_list[] = $attach) : ($file_list[] = $attach);
+            $attach['is_image'] ? ($image_list[] = $attach) : ($file_list[] = $attach);
         }
     }
-    // hook model_attach_find_by_pid_end.php
     return array($attach_list, $image_list, $file_list);
 }
 
-// ------------> 其他方法
 
 function attach_format(&$attach)
 {
     global $conf;
     if (empty($attach)) return;
-    // hook model_attach_format_start.php
     $attach['create_date_fmt'] = date('Y-n-j', $attach['create_date']);
     $attach['url'] = $conf['upload_url'] . 'attach/' . $attach['filename'];
-    // hook model_attach_format_end.php
 }
 
 
-function attach_count($cond = array())
+function attach_count($cond = array()): int
 {
-    // hook model_attach_count_start.php
     $cond = db_cond_to_sql_add($cond);
-    $n = db_count('attach', $cond);
-    // hook model_attach_count_end.php
-    return $n;
+    return db_count('attach', $cond);
 }
 
 
 function attach_type($name, $types)
 {
-    // hook model_attach_type_start.php
     $ext = file_ext($name);
-    foreach ($types as $type => $exts) {
+    foreach ($types as $type => $arr_ext) {
         if ($type == 'all') continue;
-        if (in_array($ext, $exts)) {
+        if (in_array($ext, $arr_ext)) {
             return $type;
         }
     }
-    // hook model_attach_type_end.php
     return 'other';
 }
+
 
 // 扫描垃圾的附件，每日清理一次
 function attach_gc()
 {
     global $time, $conf;
-    // hook model_attach_gc_start.php
-    $tmpfiles = glob($conf['upload_path'] . 'tmp/*.*');
-    if (is_array($tmpfiles)) {
-        foreach ($tmpfiles as $file) {
+    $tmp_files = glob($conf['upload_path'] . 'tmp/*.*');
+    if (is_array($tmp_files)) {
+        foreach ($tmp_files as $file) {
             // 清理超过一天还没处理的临时文件
             if ($time - filemtime($file) > 86400) {
                 unlink($file);
             }
         }
     }
-    // hook model_attach_gc_end.php
 }
 
+
 // 关联 session 中的临时文件，并不会重新统计 images, files
-function attach_assoc_post($pid)
+function attach_assoc_post($pid): bool
 {
     global $uid, $time, $conf;
     $sess_tmp_files = _SESSION('tmp_files');
-    //if(empty($tmp_files)) return;
-
-    // fixed by qiukong, https://bbs.xiuno.com/thread-150336.htm
     if (!$sess_tmp_files && preg_match('/tmp\+files\|(a\:1\:\{.*\})/', _SESSION('data'), $arr)) {
         $sess_tmp_files = unserialize(str_replace(array('+', '='), array('_', '.'), $arr['1']));
     }
 
     $post = post__read($pid);
-    if (empty($post)) return;
+    if (empty($post)) {
+        return TRUE;
+    }
 
     // hook attach_assoc_post_start.php
 
@@ -246,11 +201,11 @@ function attach_assoc_post($pid)
             $url = $conf['upload_url'] . 'attach/' . $day;
             !is_dir($path) and mkdir($path, 0777, TRUE);
 
-            $destfile = $path . '/' . $filename;
-            $desturl = $url . '/' . $filename;
-            $r = xn_copy($file['path'], $destfile);
-            !$r and xn_log("xn_copy($file[path]), $destfile) failed, pid:$pid, tid:$tid", 'php_error');
-            if (is_file($destfile) && filesize($destfile) == filesize($file['path'])) {
+            $dest_file = $path . '/' . $filename;
+            $dest_url = $url . '/' . $filename;
+            $r = y_copy($file['path'], $dest_file);
+            !$r and y_log("xn_copy($file[path]), $dest_file) failed, pid:$pid, tid:$tid", 'php_error');
+            if (is_file($dest_file) && filesize($dest_file) == filesize($file['path'])) {
                 @unlink($file['path']);
             }
             $arr = array(
@@ -261,18 +216,18 @@ function attach_assoc_post($pid)
                 'width' => $file['width'],
                 'height' => $file['height'],
                 'filename' => "$day/$filename",
-                'orgfilename' => $file['orgfilename'],
+                'org_file_name' => $file['org_file_name'],
                 'filetype' => $file['filetype'],
                 'create_date' => $time,
                 'comment' => '',
                 'downloads' => 0,
-                'isimage' => $file['isimage']
+                'is_image' => $file['is_image']
             );
 
             // 插入后，进行关联
             $aid = attach_create($arr);
-            $post['message'] = str_replace($file['url'], $desturl, $post['message']);
-            $post['message_fmt'] = str_replace($file['url'], $desturl, $post['message_fmt']);
+            $post['message'] = str_replace($file['url'], $dest_url, $post['message']);
+            $post['message_fmt'] = str_replace($file['url'], $dest_url, $post['message_fmt']);
 
         }
     }
@@ -282,31 +237,13 @@ function attach_assoc_post($pid)
 
     $post['message_old'] != $post['message_fmt'] and post__update($pid, array('message' => $post['message'], 'message_fmt' => $post['message_fmt']));
 
-    // 处理不在 message 中的图片，删除掉没有插入的图片附件
-    /*
-    list($attachlist, $imagelist, $filelist) = attach_find_by_pid($pid);
-    foreach($imagelist as $k=>$attach) {
-        $url = $conf['upload_url'].'attach/'.$attach['filename'];
-        if(strpos($post['message_fmt'], $url) === FALSE) {
-            unset($imagelist[$k]);
-            attach_delete($attach['aid']);
-        }
-    }
-    */
 
     // 更新 images files
-    list($attachlist, $imagelist, $filelist) = attach_find_by_pid($pid);
-    $images = count($imagelist);
-    $files = count($filelist);
-    $post['isfirst'] and thread__update($tid, array('images' => $images, 'files' => $files));
+    list($attach_list, $image_list, $file_list) = attach_find_by_pid($pid);
+    $images = count($image_list);
+    $files = count($file_list);
+    $post['is_first'] and thread__update($tid, array('images' => $images, 'files' => $files));
     post__update($pid, array('images' => $images, 'files' => $files));
-
-    // hook attach_assoc_post_end.php
 
     return TRUE;
 }
-
-
-// hook model_attach_end.php
-
-?>
