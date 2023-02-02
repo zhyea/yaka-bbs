@@ -19,7 +19,7 @@ $include_model_files = array (
 	APP_PATH.'model/post.func.php',
 	APP_PATH.'model/attach.func.php',
 	APP_PATH.'model/check.func.php',
-	APP_PATH.'model/mythread.func.php',
+	APP_PATH.'model/thread.func.php',
 	APP_PATH.'model/runtime.func.php',
 	APP_PATH.'model/table_day.func.php',
 	APP_PATH.'model/cron.func.php',
@@ -38,10 +38,9 @@ if(DEBUG) {
 		include _include($model_files);
 	}
 } else {
-	
 	$model_min_file = $conf['tmp_path'].'model.min.php';
-	$isfile = is_file($model_min_file);
-	if(!$isfile) {
+	$is_file = is_file($model_min_file);
+	if(!$is_file) {
 		$s = '';
 		foreach($include_model_files as $model_files) {
 			
@@ -53,7 +52,6 @@ if(DEBUG) {
 			$t = ltrim($t, '<?php');
 			$t = rtrim($t, '?>');
 			$s .= "<?php\r\n".$t."\r\n?>";
-
 		}
 		$r = file_put_contents($model_min_file, $s);
 		unset($s);
