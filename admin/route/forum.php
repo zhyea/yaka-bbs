@@ -20,7 +20,7 @@ if(empty($action) || $action == 'list') {
 		$header['title']        = lang('forum_admin');
 		$header['mobile_title'] = lang('forum_admin');
 	
-		$maxfid = forum_maxid();
+		$maxfid = forum_max_id();
 		
 		// hook admin_forum_list_get_end.php
 		
@@ -43,7 +43,7 @@ if(empty($action) || $action == 'list') {
 				'rank'=>array_value($rankarr, $k)
 			);
 			
-			if(!isset($forumlist[$k])) {
+			if(!isset($forum_list[$k])) {
 				// hook admin_forum_list_add_before.php
 				forum_create($arr);
 			} else {
@@ -67,7 +67,7 @@ if(empty($action) || $action == 'list') {
 		}
 		
 		// 删除 / delete
-		$deletearr = array_diff_key($forumlist, $fidarr);
+		$deletearr = array_diff_key($forum_list, $fidarr);
 		foreach($deletearr as $k=>$v) {
 			if(in_array($k, $system_forum)) continue;
 			// hook admin_forum_list_delete_before.php
@@ -219,7 +219,7 @@ if(empty($action) || $action == 'list') {
 		message(-1, lang('forum_delete_thread_before_delete_forum'));
 	}
 	
-	$sublist = forum_find_son_list($forumlist, $_fid);
+	$sublist = forum_find_son_list($forum_list, $_fid);
 	if(!empty($sublist)) {
 		message(-1, lang('forum_please_delete_sub_forum'));
 	}

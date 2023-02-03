@@ -403,7 +403,7 @@ function post_quote($quotepid) {
 
 // 对 $threadlist 权限过滤
 function post_list_access_filter(&$postlist, $gid) {
-	global $conf, $forumlist;
+	global $conf, $forum_list;
 	if(empty($postlist)) return;
 	
 	// hook model_post_list_access_filter_start.php
@@ -411,7 +411,7 @@ function post_list_access_filter(&$postlist, $gid) {
 	foreach($postlist as $pid=>$post) {
 		$thread = thread__read($post['tid']);
 		$fid = $thread['fid'];
-		if(empty($forumlist[$fid]['accesson'])) continue;
+		if(empty($forum_list[$fid]['accesson'])) continue;
 		if($thread['top'] > 0) continue;
 		if(!forum_access_user($fid, $gid, 'allowread')) {
 			unset($postlist[$pid]);

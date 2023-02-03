@@ -73,11 +73,11 @@ function thread_digest_find_by_uid($uid, $page = 1, $pagesize = 20) {
 }
 
 function thread_digest_count($fid = 0) {
-	global $forumlist;
+	global $forum_list;
 	if($fid == 0) {
 		return db_count('thread_digest');
 	} else {
-		return $forumlist[$fid]['digests'];
+		return $forum_list[$fid]['digests'];
 	}
 }
 

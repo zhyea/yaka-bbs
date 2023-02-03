@@ -83,11 +83,11 @@ function forum_find_sibling_list($forumlist, $fid) {
 
 // 是否为子版块
 function forum_is_sub($fid) {
-	global $forumlist;
-	$forum = $forumlist[$fid];
+	global $forum_list;
+	$forum = $forum_list[$fid];
 	if($forum['fup'] == 0) return FALSE;
 	$fup = $forum['fup'];
-	$pforum = $forumlist[$fup];
+	$pforum = $forum_list[$fup];
 	if($pforum['fup'] == 0) return FALSE;
 	return TRUE;
 }

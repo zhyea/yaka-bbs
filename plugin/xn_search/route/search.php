@@ -35,7 +35,7 @@ function search_thread_by_fulltext($keyword_decode_against, $start, $pagesize) {
 	$threadlist = thread_find_by_tids($tids);
 	$threadlist = arrlist_multisort($threadlist, 'tid', FALSE);
 	
-	global $forumlist, $gid;
+	global $forum_list, $gid;
 	$count_before = count($threadlist);
 	thread_list_access_filter($threadlist, $gid);
 	$count_after = count($threadlist);
@@ -66,10 +66,10 @@ function search_post_by_fulltext($keyword_decode_against, $start, $pagesize2, &$
 	
 	// 权限过滤
 	$count_before = count($postlist);
-	global $forumlist, $gid;
+	global $forum_list, $gid;
 	foreach($postlist as $k=>$post) {
 		$thread = thread__read($post['tid']);
-		if(empty($forumlist[$thread['fid']]['accesson'])) continue;
+		if(empty($forum_list[$thread['fid']]['accesson'])) continue;
 		if($thread['top'] > 0) continue;
 		if(!forum_access_user($thread['fid'], $gid, 'allowread')) {
 			unset($postlist[$k]);

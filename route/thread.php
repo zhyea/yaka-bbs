@@ -20,7 +20,7 @@ if($action == 'create') {
 		$fid = param(2, 0);
 		$forum = $fid ? forum_read($fid) : array();
 		
-		$forumlist_allowthread = forum_list_access_filter($forumlist, $gid, 'allowthread');
+		$forumlist_allowthread = forum_list_access_filter($forum_list, $gid, 'allowthread');
 		$forumarr = xn_json_encode(arrlist_key_values($forumlist_allowthread, 'fid', 'name'));
 		if(empty($forumlist_allowthread)) {
 			message(-1, lang('user_group_insufficient_privilege'));

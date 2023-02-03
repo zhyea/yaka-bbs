@@ -26,7 +26,7 @@ if(empty($action) || $action == 'list') {
 	$_SESSION['thread_find_queueid'] = $queueid;
 
 	$forumlist_simple = array();
-	foreach($forumlist as $k=>$v) {
+	foreach($forum_list as $k=> $v) {
 		$forumlist_simple[$k] = array(
 			'name'=>$v['name'],
 			'threads'=>$v['threads'],
@@ -73,7 +73,7 @@ if(empty($action) || $action == 'list') {
 	$cond['page'] = param('page', 1);
 	
 	$page = $cond['page'];
-	$threads = $cond['fid'] ? $forumlist[$fid]['threads'] : $runtime['threads'];
+	$threads = $cond['fid'] ? $forum_list[$fid]['threads'] : $runtime['threads'];
 	$totalpage = ceil($threads / $pagesize);
 	
 	// hook admin_thread_scan_start.php

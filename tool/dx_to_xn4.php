@@ -130,9 +130,9 @@ if($userlist) {
 }
 
 echo "upgrade forum:\r\n";
-$forumlist = $dx->sql_find("SELECT * FROM {$tablepre}forum");
+$forum_list = $dx->sql_find("SELECT * FROM {$tablepre}forum");
 $db->exec("TRUNCATE `{$tablepre}forum`");
-foreach ($forumlist as $forum) {
+foreach ($forum_list as $forum) {
 	$arr = array(
 		'fid'=>$forum['fid'],
 		'name'=>$forum['name'],
@@ -155,7 +155,7 @@ foreach ($forumlist as $forum) {
 	echo ".";
 }
 echo "[ok]\r\n";
-unset($forumlist);
+unset($forum_list);
 
 echo "upgrade forum_access:\r\n";
 $accesslist = $dx->sql_find("SELECT * FROM {$tablepre}forum_access");
