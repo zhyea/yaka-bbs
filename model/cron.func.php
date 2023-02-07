@@ -41,7 +41,7 @@ function cron_run($force = 0) {
 			runtime_set('todayusers', 0);
 			
 			foreach($forum_list as $fid=>$forum) {
-				forum__update($fid, array('todayposts'=>0, 'todaythreads'=>0));
+				_forum_update($fid, array('todayposts'=>0, 'todaythreads'=>0));
 			}
 			forum_list_cache_delete();
 			

@@ -68,7 +68,7 @@ function post_create($arr, $fid, $gid) {
 	
 		runtime_set('posts+', 1);
 		runtime_set('todayposts+', 1);
-		forum__update($fid, array('todayposts+'=>1));
+		_forum_update($fid, array('todayposts+'=>1));
 	}
 	
 	//post_list_cache_delete($tid);

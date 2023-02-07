@@ -42,7 +42,7 @@ if(empty($action) || $action == 'list') {
 				'creditsfrom'=>$creditsfromarr[$k],
 				'creditsto'=>$creditstoarr[$k],
 			);
-			if(!isset($grouplist[$k])) {
+			if(!isset($group_list[$k])) {
 				// 添加 / add
 				group_create($arr);
 			} else {
@@ -52,7 +52,7 @@ if(empty($action) || $action == 'list') {
 		}
 		
 		// 删除 / delete
-		$deletearr = array_diff_key($grouplist, $gidarr);
+		$deletearr = array_diff_key($group_list, $gidarr);
 		foreach($deletearr as $k=>$v) {
 			if(in_array($k, $system_group)) continue;
 			group_delete($k);

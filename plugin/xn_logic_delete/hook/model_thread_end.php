@@ -20,7 +20,7 @@ function thread_logic_delete($tid) {
 	$r = thread__update($tid, array('deleted'=>1));
 	
 	// 更新统计
-	forum__update($fid, array('threads-'=>1));
+	_forum_update($fid, array('threads-'=>1));
 	user__update($uid, array('threads-'=>1));
 	
 	// 全站统计
@@ -55,7 +55,7 @@ function thread_logic_recover($tid) {
 	$r = thread__update($tid, array('deleted'=>0));
 	
 	// 更新统计
-	forum__update($fid, array('threads+'=>1));
+	_forum_update($fid, array('threads+'=>1));
 	user__update($uid, array('threads+'=>1));
 	
 	// 全站统计

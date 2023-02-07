@@ -1,31 +1,31 @@
 <?php
 
 
-function forum__create($arr)
+function _forum_create($arr)
 {
     return db_create('forum', $arr);
 }
 
 
-function forum__update($fid, $arr)
+function _forum_update($fid, $arr)
 {
     return db_update('forum', array('fid' => $fid), $arr);
 }
 
 
-function forum__read($fid)
+function _forum_read($fid)
 {
     return db_find_one('forum', array('fid' => $fid));
 }
 
 
-function forum__delete($fid)
+function _forum_delete($fid)
 {
     return db_delete('forum', array('fid' => $fid));
 }
 
 
-function forum__find($cond = array(), $order_by = array(), $page = 1, $page_size = 1000): array
+function _forum_find($cond = array(), $order_by = array(), $page = 1, $page_size = 1000): array
 {
     return db_find('forum', $cond, $order_by, $page, $page_size, 'fid');
 }
@@ -34,7 +34,7 @@ function forum__find($cond = array(), $order_by = array(), $page = 1, $page_size
 
 function forum_create($arr)
 {
-    $r = forum__create($arr);
+    $r = _forum_create($arr);
     forum_list_cache_delete();
     return $r;
 }
@@ -42,7 +42,7 @@ function forum_create($arr)
 
 function forum_update($fid, $arr)
 {
-    $r = forum__update($fid, $arr);
+    $r = _forum_update($fid, $arr);
     forum_list_cache_delete();
     return $r;
 }
@@ -54,7 +54,7 @@ function forum_read($fid)
     if ($conf['cache']['enable']) {
         return empty($forum_list[$fid]) ? array() : $forum_list[$fid];
     } else {
-        $forum = forum__read($fid);
+        $forum = _forum_read($fid);
         forum_format($forum);
         return $forum;
     }
@@ -72,7 +72,7 @@ function forum_delete($fid)
         thread_delete(0, $thread['tid']);
     }
 
-    $r = forum__delete($fid);
+    $r = _forum_delete($fid);
 
     forum_access_delete_by_fid($fid);
 
@@ -84,7 +84,7 @@ function forum_delete($fid)
 
 function forum_find($cond = array(), $order_by = array('rank' => -1), $page = 1, $page_size = 1000): array
 {
-    $forum_list = forum__find($cond, $order_by, $page, $page_size);
+    $forum_list = _forum_find($cond, $order_by, $page, $page_size);
     if ($forum_list) foreach ($forum_list as &$forum) forum_format($forum);
     return $forum_list;
 }
@@ -119,13 +119,15 @@ function forum_count($cond = array()): int
     return $n;
 }
 
-function forum_max_id()
+
+function forum_max_id(): int
 {
     // hook model_forum_maxid_start.php
-    $n = db_maxid('forum', 'fid');
+    $n = db_max_id('forum', 'fid');
     // hook model_forum_maxid_end.php
     return $n;
 }
+
 
 // 从缓存中读取 forum_list 数据x
 function forum_list_cache()
@@ -157,33 +159,35 @@ function forum_list_cache_delete()
     // hook model_forum_list_cache_delete_end.php
 }
 
+
 // 对 $forumlist 权限过滤，查看权限没有，则隐藏
-function forum_list_access_filter($forumlist, $gid, $allow = 'allowread')
+function forum_list_access_filter($forum_list, $gid, $allow = 'allowread')
 {
-    global $conf, $grouplist;
-    if (empty($forumlist)) return array();
-    if ($gid == 1) return $forumlist;
-    $forumlist_filter = $forumlist;
-    $group = $grouplist[$gid];
+    global $conf, $group_list;
+    if (empty($forum_list)) return array();
+    if ($gid == 1) return $forum_list;
+    $forum_list_filter = $forum_list;
+    $group = $group_list[$gid];
 
     // hook model_forum_list_access_filter_start.php
 
-    foreach ($forumlist_filter as $fid => $forum) {
+    foreach ($forum_list_filter as $fid => $forum) {
         if (empty($forum['accesson']) && empty($group[$allow]) || !empty($forum['accesson']) && empty($forum['accesslist'][$gid][$allow])) {
-            unset($forumlist_filter[$fid]);
-            unset($forumlist_filter[$fid]['modlist']);
+            unset($forum_list_filter[$fid]);
+            unset($forum_list_filter[$fid]['modlist']);
         }
-        unset($forumlist_filter[$fid]['accesslist']);
+        unset($forum_list_filter[$fid]['accesslist']);
     }
     // hook model_forum_list_access_filter_end.php
-    return $forumlist_filter;
+    return $forum_list_filter;
 }
 
-function forum_filter_moduid($moduids)
+
+function forum_filter_module_id($module_ids)
 {
-    $moduids = trim($moduids);
-    if (empty($moduids)) return '';
-    $arr = explode(',', $moduids);
+    $module_ids = trim($module_ids);
+    if (empty($module_ids)) return '';
+    $arr = explode(',', $module_ids);
     $r = array();
     foreach ($arr as $_uid) {
         $_uid = intval($_uid);
@@ -205,5 +209,3 @@ function forum_safe_info($forum)
 }
 
 // hook model_forum_end.php
-
-?>

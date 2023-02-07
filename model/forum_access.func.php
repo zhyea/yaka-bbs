@@ -125,9 +125,9 @@ function forum_access_find_by_fid($fid) {
 // 普通用户权限判断: allowread, allowthread, allowpost, allowattach, allowdown
 function forum_access_user($fid, $gid, $access) {
 	// hook model_forum_access_user_start.php
-	global $conf, $grouplist, $forum_list;
+	global $conf, $group_list, $forum_list;
 	if(empty($forum_list[$fid])) return FALSE;
-	$group = $grouplist[$gid];
+	$group = $group_list[$gid];
 	$forum = $forum_list[$fid];
 	if($forum['accesson']) {
 		$r = (!isset($group[$access]) || $group[$access]) && !empty($forum['accesslist'][$gid][$access]);
@@ -141,7 +141,7 @@ function forum_access_user($fid, $gid, $access) {
 // 板块斑竹权限判断: allowtop, allowmove, allowupdate, allowdelete, allowbanuser, allowviewip, allowdeleteuser
 function forum_access_mod($fid, $gid, $access) {
 	// hook model_forum_access_mod_start.php
-	global $uid, $conf, $grouplist, $forum_list;
+	global $uid, $conf, $group_list, $forum_list;
 	
 	// 结果缓存，加速判断！
 	static $result = array();
@@ -150,7 +150,7 @@ function forum_access_mod($fid, $gid, $access) {
 	
 	if($gid == 1 || $gid == 2) return TRUE; // 管理员有所有权限
 	if($gid == 3 || $gid == 4) {
-		$group = $grouplist[$gid];
+		$group = $group_list[$gid];
 		$forum = $forum_list[$fid];
 		$r = !empty($group[$access]) && in_string($uid, $forum['moduids']);
 	} else {
@@ -163,11 +163,11 @@ function forum_access_mod($fid, $gid, $access) {
 
 function forum_is_mod($fid, $gid, $uid) {
 	// hook forum_is_mod_start.php
-	global $conf, $grouplist, $forum_list;
+	global $conf, $group_list, $forum_list;
 	if($gid == 1 || $gid == 2) return TRUE; // 管理员有所有权限
 	if($gid == 3 || $gid == 4) {
 		if($fid == 0) return TRUE; // 此处不严谨！
-		$group = $grouplist[$gid];
+		$group = $group_list[$gid];
 		$forum = $forum_list[$fid];
 		return in_string($uid, $forum['moduids']);
 	}

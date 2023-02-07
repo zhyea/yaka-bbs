@@ -35,7 +35,7 @@ if(empty($action) || $action == 'list') {
 	$pager = pager(url("user-list-$srchtype-".urlencode($keyword).'-{page}'), $n, $page, $pagesize);
 
 	foreach ($userlist as &$_user) {
-		$_user['group'] = array_value($grouplist, $_user['gid'], '');
+		$_user['group'] = array_value($group_list, $_user['gid'], '');
 	}
 
 	// hook admin_user_list_end.php
@@ -56,7 +56,7 @@ if(empty($action) || $action == 'list') {
 		$input['email'] = form_text('email', '');
 		$input['username'] = form_text('username','');
 		$input['password'] = form_password('password', '');
-		$grouparr = arrlist_key_values($grouplist, 'gid', 'name');
+		$grouparr = arrlist_key_values($group_list, 'gid', 'name');
 		$input['_gid'] = form_select('_gid', $grouparr, 0);
 		
 		// hook admin_user_create_get_end.php
@@ -118,7 +118,7 @@ if(empty($action) || $action == 'list') {
 		$input['email'] = form_text('email', $_user['email']);
 		$input['username'] = form_text('username', $_user['username']);
 		$input['password'] = form_password('password', '');
-		$grouparr = arrlist_key_values($grouplist, 'gid', 'name');
+		$grouparr = arrlist_key_values($group_list, 'gid', 'name');
 		$input['_gid'] = form_select('_gid', $grouparr, $_user['gid']);
 
 		// hook admin_user_update_get_end.php

@@ -11,7 +11,7 @@ if($method == 'GET') {
 	
 	$kv = kv_get('vcode');
 	
-	$grouparr = arrlist_key_values($grouplist, 'gid', 'name');
+	$grouparr = arrlist_key_values($group_list, 'gid', 'name');
 	
 	$input = array();
 	$input['vcode_user_login_on'] = form_radio_yes_no('vcode_user_login_on', $kv['vcode_user_login_on']);

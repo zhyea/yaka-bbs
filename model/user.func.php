@@ -188,7 +188,7 @@ function user_maxid($cond = array()) {
 }
 
 function user_format(&$user) {
-	global $conf, $grouplist;
+	global $conf, $group_list;
 	if(empty($user)) return;
 
 	// hook model_user_format_start.php
@@ -237,14 +237,14 @@ function user_guest() {
 
 // 根据积分来调整用户组
 function user_update_group($uid) {
-	global $conf, $grouplist;
+	global $conf, $group_list;
 	$user = user_read_cache($uid);
 	if($user['gid'] < 100) return FALSE;
 	
 	// hook model_user_update_group_start.php
 	
 	// 遍历 credits 范围，调整用户组
-	foreach($grouplist as $group) {
+	foreach($group_list as $group) {
 		if($group['gid'] < 100) continue;
 		$n = $user['posts'] + $user['threads']; // 根据发帖数
 		// hook model_user_update_group_policy_start.php

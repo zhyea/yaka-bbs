@@ -41,9 +41,9 @@ $uc = get_uc_db();
 !$uc->connect() AND exit('连接 UCenter 数据库失败:'.$uc->errstr);
 
 echo "upgrade group:\r\n";
-$grouplist = $dx->sql_find("SELECT * FROM {$tablepre}group");
+$group_list = $dx->sql_find("SELECT * FROM {$tablepre}group");
 $db->exec("TRUNCATE `{$tablepre}group`");
-foreach($grouplist as $group) {
+foreach($group_list as $group) {
 	$group['groupid'] > 10 && $group['groupid'] += 90;
 	$arr = array(
 		'gid'=>$group['groupid'],
@@ -67,7 +67,7 @@ foreach($grouplist as $group) {
 	echo ".";
 }
 echo "[ok]\r\n";
-unset($grouplist);
+unset($group_list);
 
 
 echo "upgrade user:\r\n";

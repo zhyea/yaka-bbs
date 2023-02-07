@@ -91,8 +91,8 @@ function group_format(&$group) {
 }
 
 function group_name($gid) {
-	global $grouplist;
-	return isset($grouplist[$gid]['name']) ? $grouplist[$gid]['name'] : '';
+	global $group_list;
+	return isset($group_list[$gid]['name']) ? $group_list[$gid]['name'] : '';
 }
 
 

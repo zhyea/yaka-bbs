@@ -102,12 +102,12 @@ if(empty($action) || $action == 'list') {
 		$accesslist = forum_access_find_by_fid($_fid);
 		
 		if(empty($accesslist)) {
-			foreach($grouplist as $group) {
+			foreach($group_list as $group) {
 				$accesslist[$group['gid']] = $group; // 字段名相同，直接覆盖。 / same field, directly overwrite
 			}
 		} else {
 			foreach($accesslist as &$access) {
-				$access['name'] = $grouplist[$access['gid']]['name']; // 字段名相同，直接覆盖。 / same field, directly overwrite
+				$access['name'] = $group_list[$access['gid']]['name']; // 字段名相同，直接覆盖。 / same field, directly overwrite
 			}
 		}
 		array_htmlspecialchars($_forum);
@@ -156,7 +156,7 @@ if(empty($action) || $action == 'list') {
 			$allowpost = param('allowpost', array(0));
 			$allowattach = param('allowattach', array(0));
 			$allowdown = param('allowdown', array(0));
-			foreach($grouplist as $_gid=>$v) {
+			foreach($group_list as $_gid=> $v) {
 				$access = array (
 					'allowread'=>array_value($allowread, $_gid, 0),
 					'allowthread'=>array_value($allowthread, $_gid, 0),
